@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+# @Time    : 2022/8/30 16:16
+# @Author  : Arrow
+# @Describe:
+from flask import Flask
+
+from config.settings import BASE_DIR
+from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
+
+
+def create_app(config_file="config/dev_cfg.py"):
+    print(__name__, config_file, BASE_DIR)
+    app = Flask(__name__, root_path=BASE_DIR)
+    # 从配置文件加载配置
+    app.config.from_pyfile(config_file)
+
+    # 初始化db
+    db.app = app
+    db.init_app(app)
+
+    # from modules.celery import celery
+    if app.debug:
+        # shell变量增加，方便调试
+        @app.shell_context_processor
+        def make_shell_context():
+            return dict(db=db)
+
+    return app
+
