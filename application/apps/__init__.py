@@ -5,5 +5,7 @@
 # @Describe:
 import os
 
-local_path = os.path.dirname(__file__).split("/")
-local_path = local_path[-2] + "." + local_path[-1]
+# local_path = os.path.dirname(__file__).split("/")
+# print("local_path:", local_path)
+local_path = "application.apps"
+total_url_path = f"{local_path}.urls"

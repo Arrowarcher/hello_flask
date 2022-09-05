@@ -5,6 +5,7 @@
 # @Describe:
 from flask import Flask
 
+from application.modules.celery import register_celery, celery
 from config.settings import BASE_DIR
 from flask_sqlalchemy import SQLAlchemy
 
@@ -20,8 +21,17 @@ def create_app(config_file="config/dev_cfg.py"):
     # 初始化db
     db.app = app
     db.init_app(app)
+    # 注册celey
+    register_celery(celery, app)
 
-    # from modules.celery import celery
+    # 注册蓝图
+    # from application.apps.hello import hello as hello_buleprint
+    # app.register_blueprint(hello_buleprint)
+    from application.utils import init_blueprint
+    init_blueprint(app)
+
+    print(f"app_url_map:{app.url_map}")
+
     if app.debug:
         # shell变量增加，方便调试
         @app.shell_context_processor

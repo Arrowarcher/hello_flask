@@ -7,13 +7,15 @@ from celery import Celery
 
 celery = Celery("flask")
 celery.config_from_object('config.celeryconfig')
-celery.autodiscover_tasks(celery)
+celery.autodiscover_tasks(["application.apps.hello"])
 
-def register_celery(app):
 
+def register_celery(celey: Celery, app):
     TaskBase = celery.Task
+
     class ContextTask(TaskBase):
         abstract = True
+
         def __call__(self, *args, **kwargs):
             with app.app_context():
                 return TaskBase.__call__(self, *args, **kwargs)
