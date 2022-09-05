@@ -1,6 +1,6 @@
 # hello_flask
 
-模仿dj模块化
+##模仿dj模块化
 
 ### 蓝图模块在application/apps里写
 
